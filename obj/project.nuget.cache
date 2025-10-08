@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "dgSpecHash": "QgVE+RD7qfA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Carrie\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\4.14.0\\microsoft.codeanalysis.analyzers.4.14.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\microsoft.codeanalysis.common\\4.13.0\\microsoft.codeanalysis.common.4.13.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.13.0\\microsoft.codeanalysis.csharp.4.13.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\polysharp\\1.15.0\\polysharp.1.15.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.reflection.metadata\\8.0.0\\system.reflection.metadata.8.0.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.text.encoding.codepages\\7.0.0\\system.text.encoding.codepages.7.0.0.nupkg.sha512",
+    "C:\\Users\\Carrie\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "SourceGeneration depends on Microsoft.CodeAnalysis.Analyzers (>= 4.13.0) but Microsoft.CodeAnalysis.Analyzers 4.13.0 was not found. Microsoft.CodeAnalysis.Analyzers 4.14.0 was resolved instead.",
+      "projectPath": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.csproj",
+      "libraryId": "Microsoft.CodeAnalysis.Analyzers",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}

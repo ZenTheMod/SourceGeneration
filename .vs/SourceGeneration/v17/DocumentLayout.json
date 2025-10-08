@@ -1,0 +1,210 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\assets\\assetgeneration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:assets\\assetgeneration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\sourcegeneration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:sourcegeneration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\sourcegeneration.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:sourcegeneration.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\assets\\generators\\texture2dgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:assets\\generators\\texture2dgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\assets\\assetgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:assets\\assetgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\utils\\stringutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:utils\\stringutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\utils\\incrementalcontextutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:utils\\incrementalcontextutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\datastructures\\aliasedlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:datastructures\\aliasedlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|c:\\users\\carrie\\documents\\my games\\terraria\\tmodloader\\modsources\\zenssky\\sourcegeneration\\datastructures\\generatedfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59B76D24-5DE0-0A75-ECD5-2216AF4F6EB4}|SourceGeneration.csproj|solutionrelative:datastructures\\generatedfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\Core\\DataStructures\\LazyAsset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AssetGeneration.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\AssetGeneration.cs",
+              "RelativeDocumentMoniker": "Assets\\AssetGeneration.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\AssetGeneration.cs",
+              "RelativeToolTip": "Assets\\AssetGeneration.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T01:58:34.403Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AssetGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\AssetGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\AssetGenerator.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\AssetGenerator.cs",
+              "RelativeToolTip": "Assets\\AssetGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T02:21:49.055Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Texture2DGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\Generators\\Texture2DGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Generators\\Texture2DGenerator.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Assets\\Generators\\Texture2DGenerator.cs",
+              "RelativeToolTip": "Assets\\Generators\\Texture2DGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T01:31:08.554Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\GlobalUsings.cs",
+              "RelativeToolTip": "GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T02:56:48.645Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StringUtils.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Utils\\StringUtils.cs",
+              "RelativeDocumentMoniker": "Utils\\StringUtils.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Utils\\StringUtils.cs",
+              "RelativeToolTip": "Utils\\StringUtils.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T04:44:47.373Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SourceGeneration.csproj",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.csproj",
+              "RelativeDocumentMoniker": "SourceGeneration.csproj",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.csproj",
+              "RelativeToolTip": "SourceGeneration.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-07T03:47:37.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IncrementalContextUtils.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Utils\\IncrementalContextUtils.cs",
+              "RelativeDocumentMoniker": "Utils\\IncrementalContextUtils.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\Utils\\IncrementalContextUtils.cs",
+              "RelativeToolTip": "Utils\\IncrementalContextUtils.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T02:26:31.798Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SourceGeneration.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.cs",
+              "RelativeDocumentMoniker": "SourceGeneration.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\SourceGeneration.cs",
+              "RelativeToolTip": "SourceGeneration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T01:30:54.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AliasedList.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\DataStructures\\AliasedList.cs",
+              "RelativeDocumentMoniker": "DataStructures\\AliasedList.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\DataStructures\\AliasedList.cs",
+              "RelativeToolTip": "DataStructures\\AliasedList.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAwwBsAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T03:16:12.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GeneratedFile.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\DataStructures\\GeneratedFile.cs",
+              "RelativeDocumentMoniker": "DataStructures\\GeneratedFile.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\SourceGeneration\\DataStructures\\GeneratedFile.cs",
+              "RelativeToolTip": "DataStructures\\GeneratedFile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T02:25:06.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LazyAsset.cs",
+              "DocumentMoniker": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\Core\\DataStructures\\LazyAsset.cs",
+              "RelativeDocumentMoniker": "..\\Core\\DataStructures\\LazyAsset.cs",
+              "ToolTip": "C:\\Users\\Carrie\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ZensSky\\Core\\DataStructures\\LazyAsset.cs",
+              "RelativeToolTip": "..\\Core\\DataStructures\\LazyAsset.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T02:17:12.891Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
