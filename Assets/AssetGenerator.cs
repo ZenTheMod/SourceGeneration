@@ -12,26 +12,15 @@ public abstract class AssetGenerator
 
     #region Methods
 
-    public void AddPostInitializationSource(IncrementalGeneratorPostInitializationContext context)
+    public void AddSource(SourceProductionContext context, ImmutableArray<AssetFile> assets, string assemblyName)
     {
-        IEnumerable<GeneratedFile> files = WritePostInitialization();
+        IEnumerable<GeneratedFile> files = Write(assets, assemblyName);
 
         foreach (GeneratedFile file in files)
             context.AddSource(file);
     }
 
-    protected virtual IEnumerable<GeneratedFile> WritePostInitialization() =>
-        [];
-
-    public void AddSource(SourceProductionContext context, ImmutableArray<AdditionalText> texts)
-    {
-        IEnumerable<GeneratedFile> files = Write(texts);
-
-        foreach (GeneratedFile file in files)
-            context.AddSource(file);
-    }
-
-    protected virtual IEnumerable<GeneratedFile> Write(ImmutableArray<AdditionalText> texts) =>
+    protected virtual IEnumerable<GeneratedFile> Write(ImmutableArray<AssetFile> assets, string assemblyName) =>
         [];
 
     #endregion

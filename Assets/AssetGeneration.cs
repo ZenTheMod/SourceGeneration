@@ -3,6 +3,8 @@ using SourceGeneration.Assets.Generators;
 using SourceGeneration.DataStructures;
 using SourceGeneration.Utils;
 using System;
+using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -13,6 +15,8 @@ public sealed class AssetGeneration : IIncrementalGenerator
 {
     #region Private Fields
 
+    private const string BuildManifestFileName = "build.txt";
+
     private static readonly AssetGenerator[] Generators =
         [
             new Texture2DGenerator()
@@ -22,31 +26,47 @@ public sealed class AssetGeneration : IIncrementalGenerator
 
     #region Public Fields
 
-    public const string Name = "GeneratedAssets";
+    public const string AssetNamespace = "GeneratedAssets";
 
     #endregion
 
     #region Initialization
 
-    public void Initialize(IncrementalGeneratorInitializationContext context)
+    void IIncrementalGenerator.Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterPostInitializationOutput((context) =>
-        {
-            context.AddSource(GenerateGlobals());
-            context.AddSource(GenerateLazyAsset());
+        var assemblyName = context.CompilationProvider
+            .Select((compilation, _) => compilation.AssemblyName!);
 
-            foreach (AssetGenerator generator in Generators)
-                generator.AddPostInitializationSource(context);
-        });
+        context.RegisterSourceOutput(assemblyName, static (context, assemblyName) =>
+            context.AddSource(GenerateLazyAsset(assemblyName)));
+
+            // Search for the build manifest (build.txt) file to grab a root directory.
+        var projectRoot = context.AdditionalTextsProvider
+            .Where(file => file.Path.EndsWith(BuildManifestFileName))
+            .Collect()
+            .Select(static (files, _) =>
+                Path.GetDirectoryName(files[0].Path)
+                    .Replace('\\', '/'));
 
         foreach (AssetGenerator generator in Generators)
         {
-            var files = context.AdditionalTextsProvider
-            .Where(p =>
-                generator.FileExtensions.Any(ext => p.Path.EndsWith($".{ext}", StringComparison.OrdinalIgnoreCase)))
-            .Collect();
+            var texts = context.AdditionalTextsProvider
+                .Where(p =>
+                    generator.FileExtensions.Any(ext => p.Path.EndsWith($".{ext}", StringComparison.OrdinalIgnoreCase)));
 
-            context.RegisterSourceOutput(files, generator.AddSource);
+            var assets = texts
+                .Combine(projectRoot)
+                .Select((tuple, _) =>
+                    new AssetFile(tuple.Left, tuple.Right))
+                .Collect();
+
+            IncrementalValueProvider<(
+                ImmutableArray<AssetFile> Assets,
+                string AssemblyName)> 
+                tuple = assets.Combine(assemblyName);
+
+            context.RegisterSourceOutput(tuple, (context, tuple) =>
+                generator.AddSource(context, tuple.Assets, tuple.AssemblyName));
         }
     }
 
@@ -54,18 +74,7 @@ public sealed class AssetGeneration : IIncrementalGenerator
 
     #region Common
 
-    private static GeneratedFile GenerateGlobals()
-    {
-        StringBuilder writer = new();
-
-        writer.Append(Header);
-        writer.Append(@$"
-global using {Name};");
-
-        return new("GlobalUsings.cs", writer.ToString());
-    }
-
-    private static GeneratedFile GenerateLazyAsset()
+    private static GeneratedFile GenerateLazyAsset(string assemblyName)
     {
         StringBuilder writer = new();
 
@@ -75,7 +84,7 @@ using ReLogic.Content;
 using System;
 using Terraria.ModLoader;
 
-namespace {Name}.Core.DataStructures;
+namespace {assemblyName}.{AssetNamespace}.DataStructures;
 
 /// <inheritdoc cref=""Asset{{T}}""/>
 public readonly record struct LazyAsset<T> where T : class
@@ -130,7 +139,7 @@ public readonly record struct LazyAsset<T> where T : class
     #endregion
 }}");
 
-        return new("Core/DataStructures/LazyAsset.cs", writer.ToString());
+        return new($"DataStructures/LazyAsset.g.cs", writer.ToString());
     }
 
     #endregion

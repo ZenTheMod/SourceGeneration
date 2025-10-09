@@ -13,58 +13,68 @@ public sealed class Texture2DGenerator : AssetGenerator
 {
     public override string[] FileExtensions => ["png"];
 
-    protected override IEnumerable<GeneratedFile> Write(ImmutableArray<AdditionalText> images)
+    protected override IEnumerable<GeneratedFile> Write(ImmutableArray<AssetFile> textures, string assemblyName)
     {
         StringBuilder writer = new();
 
-            // Group all textures by their path.
-        AliasedList<string, AdditionalText> groupedPaths = new(images, i =>
-            Regex.Match(i.Path, $"(?=({ExecutingAssemblyName}[{DirectorySeparators}])).*?(?=[{DirectorySeparators}]({Path.GetFileName(i.Path)})$)").Value);
+            // Group all textures by their abstract path.
+        AliasedList<string, AssetFile> groupedPaths =
+            new(textures, i => i.Directory);
 
         List<GeneratedFile> outputFiles = [];
 
-        foreach ((HashSet<string> keys, List<AdditionalText> items) in groupedPaths)
+        foreach ((HashSet<string> keys, List<AssetFile> items) in groupedPaths)
         {
             string folder = keys.First();
+
+                // TODO: Less stupid way of checking this. :sob:
+            if (items.First().InRoot)
+                continue;
 
             string outputPath = folder;
 
             writer.Append(Header);
 
             writer.Append(@$"
-namespace {Regex.Replace(folder, $"[{DirectorySeparators}]", ".")};
+using Microsoft.Xna.Framework.Graphics;
+
+using {assemblyName}.{AssetNamespace}.DataStructures;
+
+namespace {assemblyName}.{AssetNamespace}.{folder.Replace('/', '.')};
 
 public static class Textures
 {{");
+
             HashSet<string> arrays = [];
 
-            foreach (AdditionalText texture in items)
+            foreach (AssetFile texture in items)
             {
-                string name = CleanTextureName(texture.Path);
+                string name = CleanTextureName(texture.Name);
 
+                    // Don't add new properties for numbered items.
                 if (!arrays.Add(name))
                     continue;
 
-                string assetPath = GetAssetPath(texture.Path, ExecutingAssemblyName);
+                string assetPath = texture.AssetPath;
 
-                string assetName = Capitalize(name);
+                string assetName = name.Capitalize();
 
                     // Handle texture arrays.
-                List<string> arrayPaths = [.. items.Where(i => CleanTextureName(i.Path) == name).Select(i => GetAssetPath(i.Path, ExecutingAssemblyName))];
+                List<AssetFile> arrayItems = [.. items.Where(i => i.Name == name)];
 
-                if (arrayPaths.Count() > 1)
+                if (arrayItems.Count() > 1)
                 {
                         // Sort the array based on the numbers in the file name.
-                    var sortedPaths = GetSortedTexturePaths(arrayPaths);
+                    string[] sortedPaths = GetSortedPaths(arrayItems);
 
                         // Arrays are a bit messy, unsure if this really works well.
                     writer.Append(@$"
     public static LazyAsset<Texture2D>[] {assetName} =
     [");
 
-                    foreach (string subAssetPath in sortedPaths)
+                    foreach (string path in sortedPaths)
                         writer.Append(@$"
-        new(""{subAssetPath}""),");
+        new(""{path}""),");
 
                     writer.AppendLine(@$"
     ];");
@@ -78,35 +88,35 @@ public static class Textures
 
             writer.Append(@$"}}");
 
-            outputFiles.Add(new(outputPath + "Textures.cs", writer.ToString()));
+            outputFiles.Add(new(Path.Combine(outputPath, "Textures.g.cs"), writer.ToString()));
 
             writer.Clear();
         }
-
 
         return outputFiles;
     }
 
     #region Private Methods
 
-    private static string CleanTextureName(string path)
-    {
-        string name = Path.GetFileNameWithoutExtension(path);
+        // TODO: Add cases for other invalid characters.
+    private static string CleanTextureName(string name) =>
+        Regex.Replace(name, "[0-9]", string.Empty);
 
-            // Remove all numbers from the files name.
-                // TODO: Add cases for other invalid characters.
-        name = Regex.Replace(name, "[0-9]", string.Empty);
+    private static string[] GetSortedPaths(IEnumerable<AssetFile> textures) =>
+        [..
+            textures.OrderBy(t =>
+            {
+                if (!int.TryParse(
+                    string.Concat(Regex.Matches(t.Name, "[0-9]")
+                    .OfType<Match>()
+                    .Select(m => m.ToString())
+                    ), out int result))
+                    return result;
 
-        return name;
-    }
-
-    private static IOrderedEnumerable<string> GetSortedTexturePaths(IEnumerable<string> paths) =>
-        paths.OrderBy(
-            s => int.Parse(
-                string.Concat(Regex.Matches(Path.GetFileNameWithoutExtension(s), "[0-9]")
-                .OfType<Match>()
-                .Select(m => m.ToString())
-                )));
+                return 0;
+            })
+            .Select(t => t.AssetPath)
+        ];
 
     #endregion
 }
