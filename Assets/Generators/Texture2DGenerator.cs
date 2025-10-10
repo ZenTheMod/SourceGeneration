@@ -1,13 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
-using SourceGeneration.DataStructures;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using ZourceGen.DataStructures;
+using ZourceGen.Utils;
 
-namespace SourceGeneration.Assets.Generators;
+namespace ZourceGen.Assets.Generators;
 
 public sealed class Texture2DGenerator : AssetGenerator
 {
@@ -49,7 +50,7 @@ public static class Textures
 
             foreach (AssetFile texture in items)
             {
-                string name = CleanTextureName(texture.Name);
+                string name = texture.Name.CleanName();
 
                     // Don't add new properties for numbered items.
                 if (!arrays.Add(name))
@@ -97,10 +98,6 @@ public static class Textures
     }
 
     #region Private Methods
-
-        // TODO: Add cases for other invalid characters.
-    private static string CleanTextureName(string name) =>
-        Regex.Replace(name, "[0-9]", string.Empty);
 
     private static string[] GetSortedPaths(IEnumerable<AssetFile> textures) =>
         [..

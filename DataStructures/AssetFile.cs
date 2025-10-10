@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace SourceGeneration.DataStructures;
+namespace ZourceGen.DataStructures;
 
 public readonly record struct AssetFile
 {
@@ -42,7 +42,7 @@ public readonly record struct AssetFile
 
             // Get the shorthand directory used for namespaces and such.
         Directory =
-            Path.GetDirectoryName(fullPath[(rootDirectory.Length + 1)..])
+            Path.GetDirectoryName(fullPath[(rootDirectory.Length + 1)..])!
             .Replace('\\', '/');
 
         if (Directory == string.Empty)
@@ -56,7 +56,7 @@ public readonly record struct AssetFile
                 // '.../ModSources/MyMod' => '.../ModSources'
                 // Directory => 'Textures/blahblah'
                 // AssetPath => 'ModName/Assets/Textures/blahblah/coolthing'
-        AssetPath = Path.ChangeExtension(fullPath[(Path.GetDirectoryName(rootDirectory).Length + 1)..], null);
+        AssetPath = Path.ChangeExtension(fullPath[(Path.GetDirectoryName(rootDirectory)!.Length + 1)..], null);
 
         Name = Path.GetFileNameWithoutExtension(fullPath);
 

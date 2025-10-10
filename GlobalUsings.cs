@@ -1,5 +1,5 @@
-﻿global using static SourceGeneration.SourceGeneration;
+﻿global using static ZourceGen.ZourceGen;
 
-global using static SourceGeneration.Assets.AssetGeneration;
+global using static ZourceGen.Assets.AssetGeneration;
 
-global using static SourceGeneration.Utils.Utilities;
+global using static ZourceGen.Utils.Utilities;

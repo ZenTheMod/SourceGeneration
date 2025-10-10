@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SourceGeneration.DataStructures;
+namespace ZourceGen.DataStructures;
 
 public class AliasedList<TKey, TElement>
     : List<(HashSet<TKey> Keys, List<TElement> Items)>

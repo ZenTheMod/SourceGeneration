@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SourceGeneration.DataStructures;
+﻿namespace ZourceGen.DataStructures;
 
 public readonly struct GeneratedFile
 {

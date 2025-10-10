@@ -1,10 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
-using SourceGeneration.DataStructures;
-using SourceGeneration.Utils;
+using ZourceGen.DataStructures;
+using ZourceGen.Utils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace SourceGeneration.Assets;
+namespace ZourceGen.Assets;
 
 public abstract class AssetGenerator
 {

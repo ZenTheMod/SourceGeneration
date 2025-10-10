@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SourceGeneration.Assets.Generators;
+namespace ZourceGen.Assets.Generators;
 
 internal class OBJModelGenerator
 {

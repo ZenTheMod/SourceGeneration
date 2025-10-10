@@ -1,14 +1,16 @@
 ﻿using Microsoft.CodeAnalysis;
-using SourceGeneration.Assets.Generators;
-using SourceGeneration.DataStructures;
-using SourceGeneration.Utils;
+using ZourceGen.Assets.Generators;
+using ZourceGen.DataStructures;
+using ZourceGen.Utils;
 using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SourceGeneration.Assets;
+namespace ZourceGen.Assets;
+
+#pragma warning disable RS1041 // Compiler extensions should be implemented in assemblies targeting netstandard2.0.
 
 [Generator(LanguageNames.CSharp)]
 public sealed class AssetGeneration : IIncrementalGenerator
@@ -19,7 +21,8 @@ public sealed class AssetGeneration : IIncrementalGenerator
 
     private static readonly AssetGenerator[] Generators =
         [
-            new Texture2DGenerator()
+            new EffectGenerator(),
+            new Texture2DGenerator(),
         ];
 
     #endregion
@@ -45,7 +48,7 @@ public sealed class AssetGeneration : IIncrementalGenerator
             .Where(file => file.Path.EndsWith(BuildManifestFileName))
             .Collect()
             .Select(static (files, _) =>
-                Path.GetDirectoryName(files[0].Path)
+                Path.GetDirectoryName(files[0].Path)!
                     .Replace('\\', '/'));
 
         foreach (AssetGenerator generator in Generators)

@@ -14,11 +14,20 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0.0" />
+		
 		<PackageReference Include="PolySharp" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+	
+	<!-- Additionally include a reference to tomat's fork of ShaderDecompiler 
+		https://github.com/steviegt6/shader-reader-->
+	<ItemGroup>
+		<Compile Remove="shader-reader\**" />
+		<ProjectReference Include="shader-reader\ShaderDecompiler.csproj" />
 	</ItemGroup>
 	
 </Project>
