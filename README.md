@@ -35,4 +35,13 @@ public override IContentSource CreateDefaultContentSource()
 
 # Implementation
 
-TODO: Detail how to use this generator within your own mod.
+This project is now available as a nuget package, implementation is as simple as referencing `ZourceGen` as an an analyzer.
+
+Example:
+```xml
+<ItemGroup>
+    <!-- Add every asset as an additional file so that our source generator can find it -->
+    <AdditionalFiles Include="Assets\**" />
+    <PackageReference Include="ZourceGen" Version="1.0.1" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+</ItemGroup>
+```
