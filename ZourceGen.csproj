@@ -7,7 +7,7 @@
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	</PropertyGroup>
 
-	<!-- Specifics about the packages used can be found here 
+	<!-- Specifics about the packages used can be found here
 		https://posts.specterops.io/dotnet-source-generators-in-2024-part-1-getting-started-76d619b633f5 -->
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.13.0.0">
@@ -23,8 +23,8 @@
 		</PackageReference>
 	</ItemGroup>
 	
-	<!-- Additionally include a reference to tomat's fork of ShaderDecompiler 
-		https://github.com/steviegt6/shader-reader-->
+	<!-- Include a reference to a slightly modified version of tomat's fork of ShaderDecompiler
+		https://github.com/ZenTheMod/shader-reader/ -->
 	<ItemGroup>
 		<Compile Remove="shader-reader\**" />
 		<ProjectReference Include="shader-reader\ShaderDecompiler.csproj" />

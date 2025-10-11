@@ -10,8 +10,6 @@ using System.Text;
 
 namespace ZourceGen.Assets;
 
-#pragma warning disable RS1041 // Compiler extensions should be implemented in assemblies targeting netstandard2.0.
-
 [Generator(LanguageNames.CSharp)]
 public sealed class AssetGeneration : IIncrementalGenerator
 {
