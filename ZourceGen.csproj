@@ -8,7 +8,7 @@
 		
 		<Title>ZourceGen</Title>
 		<Authors>Zoe</Authors>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		<Description>An attempt at a rather verbose tModLoader asset generator.</Description>
 		
 		<RepositoryUrl>https://github.com/ZenTheMod/ZourceGen</RepositoryUrl>
@@ -16,8 +16,6 @@
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	
-		<BuildPackage>true</BuildPackage>
 	</PropertyGroup>
 	
 	<!-- Specifics about the packages used can be found here
@@ -42,16 +40,48 @@
 		<Compile Remove="shader-reader/**" />
 		<ProjectReference Include="shader-reader\ShaderDecompiler.csproj" ReferenceOutputAssembly="true" IncludeAssets="ShaderDecompiler.dll" />
 	</ItemGroup>
-	
+
+	<PropertyGroup>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+	</PropertyGroup>
+
 	<Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
 		<ItemGroup>
 			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
 		</ItemGroup>
 	</Target>
-		
-	<PropertyGroup>
-		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-	</PropertyGroup>
+
+	<Target Name="AddNuGetDlls" BeforeTargets="_GetPackageFiles">
+		<!-- Merge the collection of PackageReference and Assemblies using the NuGetPackageId key.
+           This produces a new list containing the DLL path and the "IncludeInPackage" metadata-->
+		<JoinItems Left="@(ResolvedCompileFileDefinitions)" LeftKey="NuGetPackageId" LeftMetadata="*"
+				   Right="@(PackageReference)" RightKey="" RightMetadata="*"
+				   ItemSpecToUse="Left">
+			<Output TaskParameter="JoinResult" ItemName="_PackagesToPack" />
+		</JoinItems>
+
+		<ItemGroup>
+			<!-- Remove NETStandard DLLs -->
+			<_PackagesToPack Remove="@(_PackagesToPack)" Condition="%(NuGetPackageId) == 'NETStandard.Library'" />
+			<_PackagesToPack Remove="@(_PackagesToPack)" Condition="%(_PackagesToPack.IncludeInPackage) != 'true'" />
+		</ItemGroup>
+
+		<Message Importance="High" Text="Adding DLLs from the following packages: @(_PackagesToPack->'%(NuGetPackageId)')" />
+
+		<ItemGroup>
+			<!-- Update the collection of items to pack with the DLLs from the NuGet packages -->
+			<None Include="@(_PackagesToPack)"
+				  Pack="true"
+				  PackagePath="analyzers/dotnet/cs"
+				  Visible="false" />
+
+			<!-- Add the DLL produced by the current project to the NuGet package -->
+			<None Include="$(OutputPath)\$(AssemblyName).dll"
+				  Pack="true"
+				  PackagePath="analyzers/dotnet/cs"
+				  Visible="false" />
+		</ItemGroup>
+	</Target>
 	
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="\" />
