@@ -22,6 +22,7 @@ public sealed class AssetGeneration : IIncrementalGenerator
     private static readonly AssetGenerator[] Generators =
         [
             new EffectGenerator(),
+            new OBJModelGenerator(),
             new Texture2DGenerator(),
         ];
 
@@ -142,7 +143,7 @@ public readonly record struct LazyAsset<T> where T : class
     #endregion
 }}");
 
-        return new($"DataStructures/LazyAsset.g.cs", writer.ToString());
+        return new("DataStructures/LazyAsset.g.cs", writer.ToString());
     }
 
     #endregion

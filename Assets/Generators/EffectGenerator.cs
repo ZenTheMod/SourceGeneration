@@ -3,6 +3,7 @@ using ShaderDecompiler.Structures;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using ZourceGen.DataStructures;
@@ -51,6 +52,8 @@ public sealed class EffectGenerator : AssetGenerator
 
             string outputPath = shader.Directory;
 
+            string assetPath = shader.AssetPath;
+
             writer.Append(Header);
 
             writer.Append(@$"
@@ -63,7 +66,7 @@ namespace {assemblyName}.{AssetNamespace}.{shader.Directory.Replace('/', '.')};
 
 public static class {name}
 {{
-    public static LazyAsset<Effect> Shader => new(""{shader.AssetPath}"");
+    public static LazyAsset<Effect> Shader => new(""{assetPath}"");
 
     public static Effect Value => Shader.Value;
 
@@ -98,7 +101,7 @@ public static class {name}
                 foreach (Pass pass in technique.Passes)
                     writer.AppendLine(@$"
     public static void Apply{CleanParameterName(pass.Name!)}() =>
-        Value.Techniques[{technique.Name!}].Passes[pass.Name].Apply();");
+        Value.Techniques[""{technique.Name!}""].Passes[""{pass.Name!}""].Apply();");
 
             writer.Append(@$"}}");
 

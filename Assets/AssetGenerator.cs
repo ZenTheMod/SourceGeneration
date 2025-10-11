@@ -14,6 +14,9 @@ public abstract class AssetGenerator
 
     public void AddSource(SourceProductionContext context, ImmutableArray<AssetFile> assets, string assemblyName)
     {
+        if (assets.Length <= 0)
+            return;
+
         IEnumerable<GeneratedFile> files = Write(assets, assemblyName);
 
         foreach (GeneratedFile file in files)

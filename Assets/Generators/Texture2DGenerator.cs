@@ -61,7 +61,7 @@ public static class Textures
                 string assetName = name.Capitalize();
 
                     // Handle texture arrays.
-                List<AssetFile> arrayItems = [.. items.Where(i => i.Name == name)];
+                List<AssetFile> arrayItems = [.. items.Where(i => i.Name.CleanName() == name)];
 
                 if (arrayItems.Count() > 1)
                 {
