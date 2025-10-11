@@ -35,13 +35,13 @@ public override IContentSource CreateDefaultContentSource()
 
 # Implementation
 
-This project is now available as a nuget package, implementation is as simple as referencing `ZourceGen` as an an analyzer.
+This project is now available as a nuget package, implementation is as simple as referencing `ZourceGen` as an an analyzer. (Ensure version 1.0.3 or higher is used.)
 
 Example:
 ```xml
 <ItemGroup>
     <!-- Add every asset as an additional file so that our source generator can find it -->
     <AdditionalFiles Include="Assets\**" />
-    <PackageReference Include="ZourceGen" Version="1.0.1" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+    <PackageReference Include="ZourceGen" Version="1.0.3" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 </ItemGroup>
 ```
