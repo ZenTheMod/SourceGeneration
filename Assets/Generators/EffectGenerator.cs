@@ -75,6 +75,11 @@ public static class {name}
             {
                 string typeName = CSharpParemterTypes[parameter.Value.Type.ToString()];
                 string propertyName = CleanParameterName(parameter.Value.Name!);
+
+                    // CS0542 check.
+                if (propertyName == name)
+                    propertyName = $"_{propertyName}";
+
                 string parameterName = parameter.Value.Name!;
 
                 writer.AppendLine(@$"
