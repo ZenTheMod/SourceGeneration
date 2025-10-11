@@ -28,7 +28,7 @@ public sealed class AssetGeneration : IIncrementalGenerator
 
     #region Public Fields
 
-    public const string AssetNamespace = "GeneratedAssets";
+    public const string AssetNamespace = "Assets";
 
     #endregion
 

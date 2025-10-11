@@ -4,7 +4,7 @@ An attempt at a rather verbose tModLoader asset generator; similar to that of [S
 
 # Asset Generation
 
-Generated files will be placed into the `{YourModName}.GeneratedAssets` namespace.
+Generated files will be placed into the `{YourModName}.Assets` namespace.
 
 An impl of `LazyAsset<T>` will be used for all asset handling within generated files, this type will implicity convert to either an `Asset<T> `or `T` if needed.
 
