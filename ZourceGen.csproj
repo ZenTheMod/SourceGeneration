@@ -8,7 +8,7 @@
 		
 		<Title>ZourceGen</Title>
 		<Authors>Zoe</Authors>
-		<Version>1.0.3</Version>
+		<Version>1.1.0</Version>
 		<Description>An attempt at a rather verbose tModLoader asset generator.</Description>
 		
 		<RepositoryUrl>https://github.com/ZenTheMod/ZourceGen</RepositoryUrl>
@@ -16,6 +16,8 @@
 		
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
 	</PropertyGroup>
 	
 	<!-- Specifics about the packages used can be found here
@@ -40,14 +42,20 @@
 		<Compile Remove="shader-reader/**" />
 		<ProjectReference Include="shader-reader\ShaderDecompiler.csproj" ReferenceOutputAssembly="true" IncludeAssets="ShaderDecompiler.dll" />
 	</ItemGroup>
-	
+
+	<!-- Package project references with ZourceGen in the analyzers directory -->
+	<Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" TargetPath="../../analyzers/dotnet/cs" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Update="LICENSE" Pack="true" PackagePath="\" />
 
 		<!-- There is not a single other solution known to me on this planet -->
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-		<None Include=".\shader-reader\bin\Debug\netstandard2.0\ShaderDecompiler.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 	
 </Project>

@@ -40,7 +40,12 @@ public sealed class AssetGeneration : IIncrementalGenerator
             .Select((compilation, _) => compilation.AssemblyName!);
 
         context.RegisterSourceOutput(assemblyName, static (context, assemblyName) =>
-            context.AddSource(GenerateLazyAsset(assemblyName)));
+        {
+            context.AddSource(GenerateLazyAsset(assemblyName));
+
+            context.AddSource(GenerateAssetReloader(assemblyName));
+            context.AddSource(GenerateLocalAssetSource(assemblyName));
+        });
 
             // Search for the build manifest (build.txt) file to grab a root directory.
         var projectRoot = context.AdditionalTextsProvider
@@ -75,6 +80,8 @@ public sealed class AssetGeneration : IIncrementalGenerator
     #endregion
 
     #region Common
+
+    #region LazyAsset
 
     private static GeneratedFile GenerateLazyAsset(string assemblyName)
     {
@@ -143,6 +150,223 @@ public readonly record struct LazyAsset<T> where T : class
 
         return new("DataStructures/LazyAsset.g.cs", writer.ToString());
     }
+
+    #endregion
+
+    #region AssetReloader
+
+    private static GeneratedFile GenerateAssetReloader(string assemblyName)
+    {
+        StringBuilder writer = new();
+
+        writer.Append(Header);
+        writer.Append(@$"
+using ReLogic.Content;
+using ReLogic.Utilities;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+
+using Terraria;
+
+using Terraria.ModLoader;
+
+using static System.IO.WatcherChangeTypes;
+using static System.Reflection.BindingFlags;
+
+namespace {assemblyName}.{AssetNamespace}.Debug;
+
+#if DEBUG
+
+[Autoload(Side = ModSide.Client)]
+public sealed class AssetReloader : ModSystem
+{{
+    #region Private Fields
+
+    private const NotifyFilters AllFilters =
+        NotifyFilters.FileName |
+        NotifyFilters.DirectoryName |
+        NotifyFilters.Attributes |
+        NotifyFilters.Size |
+        NotifyFilters.LastWrite |
+        NotifyFilters.LastAccess |
+        NotifyFilters.CreationTime |
+        NotifyFilters.Security;
+
+    private static readonly List<FileSystemWatcher> AssetWatchers = [];
+
+    private static string ModSource = """";
+
+    #endregion
+
+    #region Loading
+
+    public override void PostSetupContent()
+    {{
+        ModSource = Mod.SourceFolder.Replace('\\', '/');
+
+        ChangeContentSource(ModSource);
+
+        AssetReaderCollection assetReaderCollection = Main.instance.Services.Get<AssetReaderCollection>();
+
+        string[] extensions = assetReaderCollection.GetSupportedExtensions();
+
+        foreach (string extension in extensions)
+        {{
+            FileSystemWatcher watcher = new(ModSource, $""*{{extension}}"");
+
+            watcher.Changed += AssetChanged;
+
+            watcher.NotifyFilter = AllFilters;
+
+            watcher.IncludeSubdirectories = true;
+            watcher.EnableRaisingEvents = true;
+
+            AssetWatchers.Add(watcher);
+        }}
+    }}
+
+    public override void Unload()
+    {{
+        foreach (FileSystemWatcher watcher in AssetWatchers)
+        {{
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
+        }}
+
+        AssetWatchers.Clear();
+    }}
+
+    #endregion
+
+    #region Assets
+
+    private void AssetChanged(object sender, FileSystemEventArgs e)
+    {{
+        if (e.ChangeType.HasFlag(Created))
+            return;
+
+        string assetPath = Path.GetRelativePath(ModSource, e.FullPath);
+
+        assetPath = Path.ChangeExtension(assetPath, null).Replace('/', '\\');
+
+        if (e.ChangeType.HasFlag(Deleted) ||
+            e.ChangeType.HasFlag(Renamed))
+        {{
+            Mod.Logger.Warn($""Asset at {{assetPath}} was removed or renamed!"");
+            return;
+        }}
+
+        if (!Mod.Assets._assets.TryGetValue(assetPath, out IAsset? asset) ||
+            asset is null)
+            return;
+
+        Main.QueueMainThreadAction(() =>
+            ReloadAsset(asset));
+    }}
+
+    private void ReloadAsset(IAsset asset)
+    {{
+        lock (Mod.Assets._requestLock)
+            Mod.Assets.ForceReloadAsset(asset, AssetRequestMode.ImmediateLoad);
+
+            // Unsure if this is required to correctly reload the asset;
+                // ForceReloadAsset doesn't run Asset.Wait for ImmediateLoad unlike the ordinary AssetRepository.Request.
+        InvokeAssetWait(asset);
+    }}
+
+    private static void InvokeAssetWait(IAsset asset)
+    {{
+        Type type = asset.GetType();
+
+        if (!type.IsGenericType ||
+            type.GetGenericTypeDefinition() != typeof(Asset<>))
+            throw new ArgumentException($""IAsset was not of type {{nameof(Asset<>)}}!"");
+
+        MethodInfo? getAssetWait = type.GetProperty(nameof(Asset<>.Wait), Public | Instance)?.GetGetMethod();
+
+        Action wait = (Action?)getAssetWait?.Invoke(asset, []) ??
+            throw new NullReferenceException($""Asset wait function was null!"");
+
+        wait();
+    }}
+
+    #endregion
+
+    #region AssetSource
+
+    private void ChangeContentSource(string modSource) =>
+        Main.QueueMainThreadAction(() => Mod.Assets.SetSources([new LocalAssetSource(modSource), Mod.RootContentSource]));
+
+    #endregion
+}}
+
+#endif");
+
+        return new("Debug/AssetReloader.g.cs", writer.ToString());
+    }
+
+    #endregion
+
+    #region LocalAssetSource
+
+    private static GeneratedFile GenerateLocalAssetSource(string assemblyName)
+    {
+        StringBuilder writer = new();
+
+        writer.Append(Header);
+        writer.Append(@$"
+using ReLogic.Content.Sources;
+
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+using Terraria.Initializers;
+
+namespace {assemblyName}.{AssetNamespace}.Debug;
+
+#if DEBUG
+
+public class LocalAssetSource : ContentSource
+{{
+    #region Private Properties
+
+    private string ModSource {{ get; init; }}
+
+    #endregion
+
+    #region Public Constructors
+
+    public LocalAssetSource(string modSource) : base()
+    {{
+        ModSource = modSource;
+
+        IEnumerable<string> assetNames =
+            Directory.GetFiles(ModSource, ""*.*"", SearchOption.AllDirectories)
+            .Select(p => Path.GetRelativePath(ModSource, p).Replace('\\', '/'))
+            .Where(p => AssetInitializer.assetReaderCollection.TryGetReader(Path.GetExtension(p), out _));
+
+        SetAssetNames(assetNames);
+    }}
+    #endregion
+
+    #region Public Methods
+
+    public override Stream OpenStream(string fullAssetName) =>
+        File.OpenRead(Path.Combine(ModSource, fullAssetName));
+
+    #endregion
+}}
+
+#endif");
+
+        return new("Debug/LocalAssetSource.g.cs", writer.ToString());
+    }
+
+    #endregion
 
     #endregion
 }
