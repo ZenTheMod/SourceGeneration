@@ -15,7 +15,7 @@ Example:
 </ItemGroup>
 ```
 
-# Asset Hot-Reloading
+## Asset Hot-Reloading
 
 Assets for your mod will automatically reload when debugging.
 
