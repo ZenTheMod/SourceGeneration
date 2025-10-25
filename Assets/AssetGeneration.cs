@@ -1,12 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
-using ZourceGen.Assets.Generators;
-using ZourceGen.DataStructures;
-using ZourceGen.Utils;
 using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ZourceGen.Assets.Generators;
+using ZourceGen.DataStructures;
+using ZourceGen.Utils;
 
 namespace ZourceGen.Assets;
 
@@ -178,12 +178,20 @@ using static System.Reflection.BindingFlags;
 
 namespace {assemblyName}.{AssetNamespace}.Debug;
 
+#nullable enable
+
 #if DEBUG
 
 [Autoload(Side = ModSide.Client)]
 public sealed class AssetReloader : ModSystem
 {{
     #region Private Fields
+
+    private static FieldInfo? AssetsInfo;
+
+    private static FieldInfo? RequestLockInfo;
+
+    private static MethodInfo? ForceReloadAssetInfo;
 
     private const NotifyFilters AllFilters =
         NotifyFilters.FileName |
@@ -195,7 +203,7 @@ public sealed class AssetReloader : ModSystem
         NotifyFilters.CreationTime |
         NotifyFilters.Security;
 
-    private static readonly List<FileSystemWatcher> AssetWatchers = [];
+    private static FileSystemWatcher? AssetWatcher;
 
     private static string ModSource = """";
 
@@ -205,6 +213,12 @@ public sealed class AssetReloader : ModSystem
 
     public override void PostSetupContent()
     {{
+        AssetsInfo = typeof(AssetRepository).GetField(""_assets"", NonPublic | Instance);
+
+        RequestLockInfo = typeof(AssetRepository).GetField(""_requestLock"", NonPublic | Instance);
+
+        ForceReloadAssetInfo = typeof(AssetRepository).GetMethod(""ForceReloadAsset"", NonPublic | Instance);
+
         ModSource = Mod.SourceFolder.Replace('\\', '/');
 
         ChangeContentSource(ModSource);
@@ -213,30 +227,27 @@ public sealed class AssetReloader : ModSystem
 
         string[] extensions = assetReaderCollection.GetSupportedExtensions();
 
-        foreach (string extension in extensions)
-        {{
-            FileSystemWatcher watcher = new(ModSource, $""*{{extension}}"");
+        AssetWatcher = new(ModSource);
 
-            watcher.Changed += AssetChanged;
+        foreach (string e in extensions)
+            AssetWatcher.Filters.Add($""*{{e}}"");
 
-            watcher.NotifyFilter = AllFilters;
+        AssetWatcher.Changed += EffectChanged;
 
-            watcher.IncludeSubdirectories = true;
-            watcher.EnableRaisingEvents = true;
+        AssetWatcher.NotifyFilter = AllFilters;
 
-            AssetWatchers.Add(watcher);
-        }}
+        AssetWatcher.IncludeSubdirectories = true;
+        AssetWatcher.EnableRaisingEvents = true;
     }}
 
     public override void Unload()
     {{
-        foreach (FileSystemWatcher watcher in AssetWatchers)
+            // Null conditional assignment should not be assumed.
+        if (AssetWatcher is not null)
         {{
-            watcher.EnableRaisingEvents = false;
-            watcher.Dispose();
+            AssetWatcher.EnableRaisingEvents = false;
+            AssetWatcher.Dispose();
         }}
-
-        AssetWatchers.Clear();
     }}
 
     #endregion
@@ -259,7 +270,12 @@ public sealed class AssetReloader : ModSystem
             return;
         }}
 
-        if (!Mod.Assets._assets.TryGetValue(assetPath, out IAsset? asset) ||
+        Dictionary<string, IAsset>? repositoryAssets = (Dictionary<string, IAsset>?)AssetsInfo?.GetValue(Mod.Assets);
+
+        if (repositoryAssets is null)
+            throw new NullReferenceException(""'Mod.Assets._assets' was null!"");
+
+        if (!repositoryAssets.TryGetValue(assetPath, out IAsset? asset) ||
             asset is null)
             return;
 
@@ -269,8 +285,12 @@ public sealed class AssetReloader : ModSystem
 
     private void ReloadAsset(IAsset asset)
     {{
-        lock (Mod.Assets._requestLock)
-            Mod.Assets.ForceReloadAsset(asset, AssetRequestMode.ImmediateLoad);
+        if (RequestLockInfo is null ||
+            ForceReloadAssetInfo is null)
+            throw new NullReferenceException(""Could not force reload asset!"");
+
+        lock (RequestLockInfo.GetValue(Mod.Assets))
+            ForceReloadAssetInfo.Invoke(Mod.Assets, [asset, AssetRequestMode.ImmediateLoad]);
 
             // Unsure if this is required to correctly reload the asset;
                 // ForceReloadAsset doesn't run Asset.Wait for ImmediateLoad unlike the ordinary AssetRepository.Request.
@@ -326,7 +346,11 @@ using System.Linq;
 
 using Terraria.Initializers;
 
+using static System.Reflection.BindingFlags;
+
 namespace {assemblyName}.{AssetNamespace}.Debug;
+
+#nullable enable
 
 #if DEBUG
 
@@ -344,10 +368,17 @@ public class LocalAssetSource : ContentSource
     {{
         ModSource = modSource;
 
+        FieldInfo? assetReaderCollectionInfo = typeof(AssetInitializer).GetField(""assetReaderCollection"", NonPublic | Static);
+
+        AssetReaderCollection? assetReaderCollection = (AssetReaderCollection?)assetReaderCollectionInfo?.GetValue(null);
+
+        if (assetReaderCollection is null)
+            return;
+
         IEnumerable<string> assetNames =
             Directory.GetFiles(ModSource, ""*.*"", SearchOption.AllDirectories)
             .Select(p => Path.GetRelativePath(ModSource, p).Replace('\\', '/'))
-            .Where(p => AssetInitializer.assetReaderCollection.TryGetReader(Path.GetExtension(p), out _));
+            .Where(p => assetReaderCollection.TryGetReader(Path.GetExtension(p), out _));
 
         SetAssetNames(assetNames);
     }}
