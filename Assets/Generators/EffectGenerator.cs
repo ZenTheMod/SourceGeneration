@@ -3,7 +3,6 @@ using ShaderDecompiler.Structures;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using ZourceGen.DataStructures;
