@@ -11,7 +11,7 @@ Example:
 <ItemGroup>
     <!-- Add every asset as an additional file so that our source generator can find it -->
     <AdditionalFiles Include="Assets\**" />
-    <PackageReference Include="ZourceGen" Version="1.1.2" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+    <PackageReference Include="ZourceGen" Version="1.1.3" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 </ItemGroup>
 ```
 

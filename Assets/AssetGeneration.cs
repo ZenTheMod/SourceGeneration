@@ -217,7 +217,8 @@ public sealed class AssetReloader : ModSystem
 
         RequestLockInfo = typeof(AssetRepository).GetField(""_requestLock"", NonPublic | Instance);
 
-        ForceReloadAssetInfo = typeof(AssetRepository).GetMethod(""ForceReloadAsset"", NonPublic | Instance);
+        MethodInfo[] repositoryMethods = typeof(AssetRepository).GetMethods(NonPublic | Instance);
+        ForceReloadAssetInfo = repositoryMethods.Single(m => m.Name == ""ForceReloadAsset"" && !m.IsGenericMethod);
 
         ModSource = Mod.SourceFolder.Replace('\\', '/');
 
