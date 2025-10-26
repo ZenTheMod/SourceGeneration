@@ -232,7 +232,7 @@ public sealed class AssetReloader : ModSystem
         foreach (string e in extensions)
             AssetWatcher.Filters.Add($""*{{e}}"");
 
-        AssetWatcher.Changed += EffectChanged;
+        AssetWatcher.Changed += AssetChanged;
 
         AssetWatcher.NotifyFilter = AllFilters;
 
@@ -338,11 +338,13 @@ public sealed class AssetReloader : ModSystem
 
         writer.Append(Header);
         writer.Append(@$"
+using ReLogic.Content;
 using ReLogic.Content.Sources;
 
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Terraria.Initializers;
 
