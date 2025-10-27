@@ -214,32 +214,42 @@ public sealed class AssetReloader : ModSystem
 
     public override void PostSetupContent()
     {{
-        AssetsInfo = typeof(AssetRepository).GetField(""_assets"", NonPublic | Instance);
+        try
+        {{
+            if (mod.something != local)
+                return;
 
-        RequestLockInfo = typeof(AssetRepository).GetField(""_requestLock"", NonPublic | Instance);
+            AssetsInfo = typeof(AssetRepository).GetField(""_assets"", NonPublic | Instance);
 
-        MethodInfo[] repositoryMethods = typeof(AssetRepository).GetMethods(NonPublic | Instance);
-        ForceReloadAssetInfo = repositoryMethods.Single(m => m.Name == ""ForceReloadAsset"" && !m.IsGenericMethod);
+            RequestLockInfo = typeof(AssetRepository).GetField(""_requestLock"", NonPublic | Instance);
 
-        ModSource = Mod.SourceFolder.Replace('\\', '/');
+            MethodInfo[] repositoryMethods = typeof(AssetRepository).GetMethods(NonPublic | Instance);
+            ForceReloadAssetInfo = repositoryMethods.Single(m => m.Name == ""ForceReloadAsset"" && !m.IsGenericMethod);
 
-        ChangeContentSource(ModSource);
+            ModSource = Mod.SourceFolder.Replace('\\', '/');
 
-        AssetReaderCollection assetReaderCollection = Main.instance.Services.Get<AssetReaderCollection>();
+            ChangeContentSource(ModSource);
 
-        string[] extensions = assetReaderCollection.GetSupportedExtensions();
+            AssetReaderCollection assetReaderCollection = Main.instance.Services.Get<AssetReaderCollection>();
 
-        AssetWatcher = new(ModSource);
+            string[] extensions = assetReaderCollection.GetSupportedExtensions();
 
-        foreach (string e in extensions)
-            AssetWatcher.Filters.Add($""*{{e}}"");
+            AssetWatcher = new(ModSource);
 
-        AssetWatcher.Changed += AssetChanged;
+            foreach (string e in extensions)
+                AssetWatcher.Filters.Add($""*{{e}}"");
 
-        AssetWatcher.NotifyFilter = AllFilters;
+            AssetWatcher.Changed += AssetChanged;
 
-        AssetWatcher.IncludeSubdirectories = true;
-        AssetWatcher.EnableRaisingEvents = true;
+            AssetWatcher.NotifyFilter = AllFilters;
+
+            AssetWatcher.IncludeSubdirectories = true;
+            AssetWatcher.EnableRaisingEvents = true;
+        }}
+        catch (Exception e)
+        {{
+            Mod.Logger.Warn($""Unable to load Asset Reloader! - {{e}}"");
+        }}
     }}
 
     public override void Unload()
