@@ -216,9 +216,6 @@ public sealed class AssetReloader : ModSystem
     {{
         try
         {{
-            if (mod.something != local)
-                return;
-
             AssetsInfo = typeof(AssetRepository).GetField(""_assets"", NonPublic | Instance);
 
             RequestLockInfo = typeof(AssetRepository).GetField(""_requestLock"", NonPublic | Instance);
