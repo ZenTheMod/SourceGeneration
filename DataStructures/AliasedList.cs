@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ZourceGen.DataStructures;
 
-public class AliasedList<TKey, TElement>
+internal class AliasedList<TKey, TElement>
     : List<(HashSet<TKey> Keys, List<TElement> Items)>
 {
     public List<TElement> this[TKey name]

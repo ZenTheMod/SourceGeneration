@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace ZourceGen.Assets;
 
-public abstract class AssetGenerator
+internal abstract class AssetGenerator
 {
     public abstract string[] FileExtensions { get; }
 

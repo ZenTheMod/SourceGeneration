@@ -11,7 +11,7 @@ using ZourceGen.Utils;
 namespace ZourceGen.Assets;
 
 [Generator(LanguageNames.CSharp)]
-public sealed class AssetGeneration : IIncrementalGenerator
+internal sealed class AssetGeneration : IIncrementalGenerator
 {
     #region Private Fields
 

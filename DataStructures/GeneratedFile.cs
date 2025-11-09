@@ -1,6 +1,6 @@
 ﻿namespace ZourceGen.DataStructures;
 
-public readonly struct GeneratedFile
+internal readonly struct GeneratedFile
 {
     #region Public Fields
 

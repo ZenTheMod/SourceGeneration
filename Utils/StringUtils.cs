@@ -2,7 +2,7 @@
 
 namespace ZourceGen.Utils;
 
-public static partial class Utilities
+internal static partial class Utilities
 {
     public static string Capitalize(this string name) =>
         name[0].ToString().ToUpper() + name[1..];

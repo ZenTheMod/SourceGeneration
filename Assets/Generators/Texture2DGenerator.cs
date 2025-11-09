@@ -10,7 +10,7 @@ using ZourceGen.Utils;
 
 namespace ZourceGen.Assets.Generators;
 
-public sealed class Texture2DGenerator : AssetGenerator
+internal sealed class Texture2DGenerator : AssetGenerator
 {
     public override string[] FileExtensions => ["png"];
 

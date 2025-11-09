@@ -9,7 +9,7 @@ using ZourceGen.DataStructures;
 
 namespace ZourceGen.Assets.Generators;
 
-public sealed class EffectGenerator : AssetGenerator
+internal sealed class EffectGenerator : AssetGenerator
 {
     #region Private Fields
 

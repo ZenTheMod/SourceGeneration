@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ZourceGen.DataStructures;
 
-public readonly record struct AssetFile
+internal readonly record struct AssetFile
 {
     #region Public Properties
 

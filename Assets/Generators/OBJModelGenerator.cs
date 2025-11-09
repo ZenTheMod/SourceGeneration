@@ -9,7 +9,7 @@ using ZourceGen.DataStructures;
 namespace ZourceGen.Assets.Generators;
 
     // TODO: Allow for a compiled binary format of objs.
-public sealed class OBJModelGenerator : AssetGenerator
+internal sealed class OBJModelGenerator : AssetGenerator
 {
     public override string[] FileExtensions => ["obj"];
 
