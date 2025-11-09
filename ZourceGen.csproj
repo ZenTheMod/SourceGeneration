@@ -8,7 +8,7 @@
 		
 		<Title>ZourceGen</Title>
 		<Authors>Zoe</Authors>
-		<Version>1.1.6</Version>
+		<Version>1.1.7</Version>
 		<Description>An attempt at a rather verbose tModLoader asset generator.</Description>
 		
 		<RepositoryUrl>https://github.com/ZenTheMod/ZourceGen</RepositoryUrl>

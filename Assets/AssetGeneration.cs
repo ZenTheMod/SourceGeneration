@@ -208,6 +208,8 @@ public sealed class AssetReloader : ModSystem
 
     private static string ModSource = """";
 
+    private static LocalAssetSource? AssetSource;
+
     #endregion
 
     #region Loading
@@ -224,6 +226,8 @@ public sealed class AssetReloader : ModSystem
             ForceReloadAssetInfo = repositoryMethods.Single(m => m.Name == ""ForceReloadAsset"" && !m.IsGenericMethod);
 
             ModSource = Mod.SourceFolder.Replace('\\', '/');
+
+            AssetSource = new(ModSource);
 
             ChangeContentSource(ModSource);
 
@@ -268,9 +272,11 @@ public sealed class AssetReloader : ModSystem
         if (e.ChangeType.HasFlag(Created))
             return;
 
-        string assetPath = Path.GetRelativePath(ModSource, e.FullPath);
+        string assetPath = Path.GetRelativePath(ModSource, e.FullPath).Replace('/', '\\');
+        
+        AssetSource?.AddAssetPath(assetPath);
 
-        assetPath = Path.ChangeExtension(assetPath, null).Replace('/', '\\');
+        assetPath = Path.ChangeExtension(assetPath, null);
 
         if (e.ChangeType.HasFlag(Deleted) ||
             e.ChangeType.HasFlag(Renamed))
@@ -327,7 +333,7 @@ public sealed class AssetReloader : ModSystem
     #region AssetSource
 
     private void ChangeContentSource(string modSource) =>
-        Main.QueueMainThreadAction(() => Mod.Assets.SetSources([new LocalAssetSource(modSource), Mod.RootContentSource]));
+        Main.QueueMainThreadAction(() => Mod.Assets.SetSources([AssetSource, Mod.RootContentSource]));
 
     #endregion
 }}
@@ -371,6 +377,12 @@ public class LocalAssetSource : ContentSource
 
     private string ModSource {{ get; init; }}
 
+    public string[] AssetPaths
+	{{
+		get => assetPaths;
+		set => SetAssetNames(value);
+	}}
+
     #endregion
 
     #region Public Constructors
@@ -379,26 +391,18 @@ public class LocalAssetSource : ContentSource
     {{
         ModSource = modSource;
 
-        FieldInfo? assetReaderCollectionInfo = typeof(AssetInitializer).GetField(""assetReaderCollection"", NonPublic | Static);
-
-        AssetReaderCollection? assetReaderCollection = (AssetReaderCollection?)assetReaderCollectionInfo?.GetValue(null);
-
-        if (assetReaderCollection is null)
-            return;
-
-        IEnumerable<string> assetNames =
-            Directory.GetFiles(ModSource, ""*.*"", SearchOption.AllDirectories)
-            .Select(p => Path.GetRelativePath(ModSource, p).Replace('\\', '/'))
-            .Where(p => assetReaderCollection.TryGetReader(Path.GetExtension(p), out _));
-
-        SetAssetNames(assetNames);
+        assetPaths = Array.Empty<string>();
     }}
+
     #endregion
 
     #region Public Methods
 
     public override Stream OpenStream(string fullAssetName) =>
         File.OpenRead(Path.Combine(ModSource, fullAssetName));
+
+    public void AddAssetPath(string path) =>
+        AssetPaths = [.. AssetPaths.Append(path)];
 
     #endregion
 }}
