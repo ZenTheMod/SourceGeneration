@@ -158,7 +158,7 @@ public readonly record struct LazyAsset<T> where T : class
     private static GeneratedFile GenerateAssetReloader(string assemblyName)
     {
         StringBuilder writer = new();
-
+        
         writer.Append(Header);
         writer.Append(@$"
 using ReLogic.Content;
@@ -226,6 +226,9 @@ public sealed class AssetReloader : ModSystem
             ForceReloadAssetInfo = repositoryMethods.Single(m => m.Name == ""ForceReloadAsset"" && !m.IsGenericMethod);
 
             ModSource = Mod.SourceFolder.Replace('\\', '/');
+
+            if (!Directory.Exists(ModSource))
+                throw new DirectoryNotFoundException(""Mod source directory does not exsist; this warning should not be present for mod consumers!"");
 
             AssetSource = new(ModSource);
 
